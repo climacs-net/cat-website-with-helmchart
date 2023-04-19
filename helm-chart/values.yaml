@@ -6,7 +6,7 @@ replicaCount: 3
 
 app:
   image:
-    repository: <your-docker-hub-username>/cat-website
+    repository: climacs/cat-website-app
     pullPolicy: IfNotPresent
     tag: latest
 
