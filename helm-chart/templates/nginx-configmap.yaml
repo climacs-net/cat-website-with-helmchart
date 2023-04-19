@@ -4,4 +4,4 @@ metadata:
   name: nginx-config
 data:
   nginx.conf: |
-    {{ .Values.config.nginx }}
+    {{- toYaml .Values.config.nginx | nindent 4 }}
