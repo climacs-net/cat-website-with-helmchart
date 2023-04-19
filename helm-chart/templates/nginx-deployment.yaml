@@ -1,27 +1,40 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cat-website-nginx
+  name: nginx
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: cat-website-nginx
+      app: nginx
   template:
     metadata:
       labels:
-        app: cat-website-nginx
+        app: nginx
     spec:
       containers:
-        - name: cat-website-nginx
+        - name: nginx
           image: "{{ .Values.nginx.image.repository }}:{{ .Values.nginx.image.tag }}"
           imagePullPolicy: {{ .Values.nginx.image.pullPolicy }}
           ports:
-            - containerPort: {{ .Values.service.nginxPort }}
+            - containerPort: 80
+          resources: {}
           volumeMounts:
             - name: nginx-config
               mountPath: /etc/nginx/conf.d
       volumes:
         - name: nginx-config
           configMap:
-            name: cat-website-nginx-config
+            name: nginx-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  type: {{ .Values.nginx.service.type }}
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: {{ .Values.nginx.service.port }}
+      targetPort: 80
