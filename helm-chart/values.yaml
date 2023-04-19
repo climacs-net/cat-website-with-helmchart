@@ -26,6 +26,7 @@ nginx:
       memory: 128Mi
   service:
     type: ClusterIP
+    port: 8000
 
 config:
   nginx: |
