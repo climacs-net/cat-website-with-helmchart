@@ -2,37 +2,24 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
+replicaCount: 3
 
-image:
-  repository: climacs/cat-website-app
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+app:
+  image:
+    repository: <your-docker-hub-username>/cat-website
+    pullPolicy: IfNotPresent
+    tag: latest
 
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+nginx:
+  image:
+    repository: nginx
+    pullPolicy: IfNotPresent
+    tag: stable
 
 service:
-  type: ClusterIP
-  port: 80
-
-ingress:
-  enabled: false
-  annotations: {}
-  # kubernetes.io/ingress.class: nginx
-  # kubernetes.io/tls-acme: "true"
-  pathType: ImplementationSpecific
-  hosts:
-    - host: chart-example.local
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+  type: LoadBalancer
+  appPort: 5000
+  nginxPort: 80
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -45,35 +32,3 @@ resources: {}
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
-
-config:
-  nginx: |
-    user  nginx;
-    worker_processes  auto;
-
-    error_log  /var/log/nginx/error.log warn;
-    pid        /var/run/nginx.pid;
-
-    events {
-        worker_connections  1024;
-    }
-
-    http {
-        include       /etc/nginx/mime.types;
-        default_type  application/octet-stream;
-
-        log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-                          '$status $body_bytes_sent "$http_referer" '
-                          '"$http_user_agent" "$http_x_forwarded_for"';
-
-        access_log  /var/log/nginx/access.log  main;
-
-        sendfile        on;
-        #tcp_nopush     on;
-
-        keepalive_timeout  65;
-
-        #gzip  on;
-
-        include /etc/nginx/conf.d/*.conf;
-    }
