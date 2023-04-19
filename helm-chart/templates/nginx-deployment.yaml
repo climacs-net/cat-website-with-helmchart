@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cat-website-app
+  name: cat-website-nginx
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cat-website-app
+      app: cat-website-nginx
   template:
     metadata:
       labels:
-        app: cat-website-app
+        app: cat-website-nginx
     spec:
       containers:
-        - name: cat-website-app
+        - name: cat-website-nginx
           image: "{{ .Values.nginx.image.repository }}:{{ .Values.nginx.image.tag }}"
           imagePullPolicy: {{ .Values.nginx.image.pullPolicy }}
           ports:
