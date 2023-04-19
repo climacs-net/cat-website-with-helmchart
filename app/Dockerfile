@@ -9,5 +9,4 @@ COPY . .
 
 EXPOSE 8000
 
-#CMD ["python", "app.py"]
-ENTRYPOINT ["python3", "app.py"]
+CMD ["python3", "app.py"]
