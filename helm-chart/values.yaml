@@ -1,22 +1,29 @@
-replicaCount: 3
-
 app:
+  replicaCount: 3
   image:
     repository: climacs/cat-website-app-intel
+    tag: latest
     pullPolicy: IfNotPresent
-    tag: "latest"
-  service:
-    type: ClusterIP
-    port: 8000
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
 
 nginx:
   image:
     repository: nginx
+    tag: stable
     pullPolicy: IfNotPresent
-    tag: "latest"
-  service:
-    type: LoadBalancer
-    port: 80
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
 
 config:
   nginx: |
@@ -27,26 +34,25 @@ config:
     pid        /var/run/nginx.pid;
 
     events {
-        worker_connections  1024;
+      worker_connections  1024;
     }
 
     http {
-        include       /etc/nginx/mime.types;
-        default_type  application/octet-stream;
+      include       /etc/nginx/mime.types;
+      default_type  application/octet-stream;
 
-        log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-                          '$status $body_bytes_sent "$http_referer" '
-                          '"$http_user_agent" "$http_x_forwarded_for"';
+      log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                        '$status $body_bytes_sent "$http_referer" '
+                        '"$http_user_agent" "$http_x_forwarded_for"';
 
-        access_log  /var/log/nginx/access.log  main;
+      access_log  /var/log/nginx/access.log  main;
 
-        sendfile        on;
-        #tcp_nopush     on;
+      sendfile        on;
+      #tcp_nopush     on;
 
-        keepalive_timeout  65;
+      keepalive_timeout  65;
 
-        #gzip  on;
+      #gzip  on;
 
-        include /etc/nginx/conf.d/*.conf;
+      include /etc/nginx/conf.d/*.conf;
     }
-
