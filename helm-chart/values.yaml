@@ -1,34 +1,34 @@
-# Default values for cat-website.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
 replicaCount: 3
 
 app:
   image:
-    repository: climacs/cat-website-app-intel
+    repository: myregistry/cat-website-app
     pullPolicy: IfNotPresent
-    tag: latest
+    tag: "latest"
+  service:
+    type: ClusterIP
+    port: 8000
 
 nginx:
   image:
     repository: nginx
     pullPolicy: IfNotPresent
-    tag: stable
+    tag: "latest"
+  service:
+    type: LoadBalancer
+    port: 80
 
-service:
-  type: LoadBalancer
-  appPort: 5000
-  nginxPort: 80
+config:
+  nginx: |-
+    server {
+        listen 80;
+        server_name _;
 
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+        location / {
+            proxy_pass http://cat-website-app:8000;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+    }
