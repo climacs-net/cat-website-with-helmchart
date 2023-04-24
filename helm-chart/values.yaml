@@ -2,7 +2,7 @@ replicaCount: 3
 
 app:
   image:
-    repository: climacs/cat-website-app
+    repository: climacs/cat-website-app-intel
     pullPolicy: IfNotPresent
     tag: "latest"
   service:
