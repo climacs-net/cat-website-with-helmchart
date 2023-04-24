@@ -4,4 +4,4 @@ metadata:
   name: nginx-config
 data:
   nginx.conf: |
-    {{ .Values.config.nginx }}
+    {{- .Values.config.nginx | indent 4 }}
