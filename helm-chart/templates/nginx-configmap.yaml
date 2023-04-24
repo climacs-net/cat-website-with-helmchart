@@ -5,5 +5,3 @@ metadata:
 data:
   nginx.conf: |
     {{ .Values.config.nginx }}
-
-
