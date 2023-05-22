@@ -11,6 +11,9 @@ app:
     requests:
       cpu: 100m
       memory: 128Mi
+  service:  # Add this
+    type: ClusterIP  # Use ClusterIP for inter-service communication
+    port: 8000
 
 nginx:
   image:
