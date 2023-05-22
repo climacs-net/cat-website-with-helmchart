@@ -20,15 +20,15 @@ spec:
             - containerPort: 8000
           resources: {}
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: cat-website-app
-spec:
-  type: {{ .Values.app.service.type }}
-  selector:
-    app: cat-website-app
-  ports:
-    - protocol: TCP
-      port: {{ .Values.app.service.port }}
-      targetPort: 8000
+apiVersion: v1  
+kind: Service  
+metadata:  
+  name: cat-website-app  
+spec:  
+  type: {{ .Values.app.service.type }}  
+  selector:  
+    app: cat-website-app  
+  ports:  
+  - protocol: TCP  
+    port: {{ .Values.app.service.port }}  
+    targetPort: 8000  # Change from 80 to 8000
