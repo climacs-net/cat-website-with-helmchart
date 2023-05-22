@@ -1,7 +1,7 @@
 app:
   replicaCount: 3
   image:
-    repository: climacs/cat-website-app-intel
+    repository: climacs/cat-website-app-intel-v3
     tag: latest
     pullPolicy: IfNotPresent
   resources:
