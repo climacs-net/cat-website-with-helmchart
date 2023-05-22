@@ -16,7 +16,7 @@ spec:
           image: "{{ .Values.nginx.image.repository }}:{{ .Values.nginx.image.tag }}"
           imagePullPolicy: {{ .Values.nginx.image.pullPolicy }}
           ports:
-            - containerPort: 80
+            - containerPort: 8000
           resources: {}
           volumeMounts:
             - name: nginx-config
@@ -37,4 +37,4 @@ spec:
   ports:
     - protocol: TCP
       port: {{ .Values.nginx.service.port }}
-      targetPort: 80
+      targetPort: 8000
